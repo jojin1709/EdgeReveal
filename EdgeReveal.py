@@ -381,6 +381,7 @@ class EdgeReveal:
         self.only_found = only_found
         self.dns_timeout = dns_timeout
         self.rate_limit = rate_limit
+        self._custom_dns_servers = list(dns_servers) if dns_servers else []
 
         self.cf_ranges = CloudflareIPRanges()
         self.report = ScanReport(target_domain=self.domain)
@@ -390,8 +391,8 @@ class EdgeReveal:
         self._resolver = dns.resolver.Resolver()
         self._resolver.lifetime = dns_timeout
         self._resolver.timeout = dns_timeout
-        if dns_servers:
-            self._resolver.nameservers = dns_servers
+        if self._custom_dns_servers:
+            self._resolver.nameservers = self._custom_dns_servers
 
     def log(self, message: str, level: str = "info") -> None:
         if self.quiet and level != "error":
@@ -632,10 +633,10 @@ class EdgeReveal:
         self.log(f"{Colors.WHITE}Scan complete.")
         return self.report
 
-    # Expose dns_servers as attribute (set by __init__ kwarg)
+    # Expose only user-supplied DNS resolvers, not system defaults.
     @property
     def dns_servers(self):
-        return self._resolver.nameservers if hasattr(self, "_resolver") else []
+        return self._custom_dns_servers
 
 
 def parse_arguments() -> argparse.Namespace:
