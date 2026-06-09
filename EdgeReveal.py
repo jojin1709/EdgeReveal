@@ -4,7 +4,7 @@ EdgeReveal - Cloudflare Origin Revealer
 Find real IP addresses behind Cloudflare protection by scanning subdomains.
 """
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 import argparse
 import csv

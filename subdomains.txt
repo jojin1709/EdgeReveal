@@ -133,7 +133,6 @@ api-prod
 api-test
 
 # API Variants
-api
 api1
 api2
 api-v1
@@ -226,7 +225,6 @@ cache
 rabbitmq
 kafka
 mqtt
-smtp
 smtps
 mailserver
 mailgun
@@ -275,10 +273,6 @@ chef
 nomad
 
 # Authentication & Security
-auth
-oauth
-oauth2
-sso
 saml
 ldap
 ad
@@ -367,7 +361,6 @@ brazil
 br
 saopaulo
 mexico
-mx
 spain
 es
 madrid
@@ -454,11 +447,8 @@ telnet
 bastion
 jump
 jumpbox
-gateway
 
 # Mobile & Apps
-m
-mobile
 android
 ios
 iphone
@@ -476,15 +466,12 @@ cdn
 cdn1
 cdn2
 cdn3
-static
 static1
 static2
 static3
 edge
 edge1
-cache
 cache1
-pop
 pop1
 origin
 mirror
@@ -494,9 +481,7 @@ download2
 
 # Payment & Financial
 pay
-payment
 payments
-checkout
 billing
 invoice
 invoices
@@ -514,7 +499,6 @@ merchant
 analytics
 stats
 statistics
-metrics
 tracking
 track
 ga
@@ -529,10 +513,6 @@ logger
 logging
 
 # Testing & Quality Assurance
-test
-tests
-testing
-qa
 qc
 quality
 perf
@@ -575,13 +555,6 @@ gradle
 nuget
 
 # Email & Communication
-mail
-email
-smtp
-imap
-pop
-pop3
-webmail
 roundcube
 squirrelmail
 horde
@@ -596,8 +569,6 @@ alert
 alerts
 
 # Admin & Management
-admin
-administrator
 manage
 manager
 management
@@ -615,8 +586,6 @@ netops
 sysadmin
 
 # Staging & Testing Environments
-alpha
-beta
 gamma
 delta
 canary
@@ -630,10 +599,7 @@ feature
 pilot
 
 # Monitoring & Health
-status
-health
 uptime
-ping
 heartbeat
 monitor
 probe
@@ -657,9 +623,6 @@ affiliate
 
 # Social & Community
 social
-community
-forum
-forums
 board
 discuss
 discussion
@@ -668,24 +631,17 @@ messenger
 comments
 feedback
 reviews
-blog
-news
 press
 media-kit
 
 # File Storage & Transfer
-files
 file
 upload
-uploads
-download
-downloads
 storage
 drive
 share
 shared
 transfer
-ftp
 ftps
 sftp
 webdav
@@ -703,19 +659,13 @@ sensors
 smart
 thing
 things
-mqtt
 hub
 controller
 automation
-home
 
 # Video & Streaming
-video
-videos
 stream
 streaming
-live
-broadcast
 vod
 rtmp
 hls
@@ -729,14 +679,12 @@ collab
 collaborate
 workspace
 team
-teams
 project
 projects
 task
 tasks
 calendar
 schedule
-meet
 meeting
 conference
 call
@@ -768,14 +716,12 @@ supplier
 suppliers
 reseller
 resellers
-affiliate
 affiliates
 b2b
 wholesale
 distributor
 
 # Internal & Private
-internal
 intranet
 inside
 corp
@@ -785,7 +731,6 @@ employees
 staff
 hr
 humanresources
-finance
 accounting
 legal
 compliance
@@ -832,12 +777,7 @@ innovation
 
 # Localization
 en
-es
-fr
-de
-it
 pt
-ru
 zh
 ja
 ko
@@ -845,7 +785,6 @@ ar
 hi
 tr
 pl
-nl
 sv
 no
 da
@@ -858,13 +797,9 @@ cs
 # Network Infrastructure
 router
 switch
-firewall
-gateway
 bridge
-hub
 modem
 access-point
-ap
 wifi
 wireless
 lan
@@ -875,7 +810,6 @@ vlan
 # Miscellaneous
 temp
 tmp
-sandbox
 scratch
 misc
 other
@@ -921,7 +855,6 @@ about
 contact
 careers
 jobs-board
-legal
 privacy
 terms
 tos

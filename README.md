@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-![Version](https://img.shields.io/badge/version-1.1.0-green.svg)
+![Version](https://img.shields.io/badge/version-1.1.1-green.svg)
 ![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey.svg)
 ![Tool Type](https://img.shields.io/badge/tool-recon-red.svg)
 
@@ -262,6 +262,8 @@ If dependencies are missing, reinstall them:
 ```bash
 pip install -r requirements.txt
 ```
+
+A scan that reports `Found (non-CF IPs) : 0` is not automatically a failure. It can mean the target is fully proxied, the tested names do not exist, or the target is intentionally configured to hide origin infrastructure.
 
 If scans are slow or unreliable, try a public resolver and a shorter timeout:
 

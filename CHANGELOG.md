@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.1] - 2026-06-09
+
+### Added
+- GitHub Actions CI workflow for compile and unit test checks.
+- Basic unit tests for bundled wordlist selection, wordlist parsing, and normal report output.
+- README troubleshooting note explaining that zero non-Cloudflare findings can be a normal result.
+
+### Changed
+- Renamed the bundled wordlist from `dom.txt` to `subdomains.txt`.
+- Expanded and deduplicated the bundled subdomain wordlist.
+- Cleaned README installation, usage, options, and examples.
+- Added developer credit and LinkedIn link.
+
+### Fixed
+- Custom DNS logging now appears only when `--dns` is explicitly provided.
+
 ## [1.1.0] - 2026-06-09
 
 ### Fixed
