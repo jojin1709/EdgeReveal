@@ -8,6 +8,8 @@
 
 EdgeReveal is a Python reconnaissance tool for authorized security testing. It checks a target domain and its subdomains, resolves IPv4 and IPv6 records, filters known Cloudflare IP ranges, and reports hosts that may expose non-Cloudflare origin IPs.
 
+Developed by [JOJIN JOHN](https://www.linkedin.com/in/jojin-john/).
+
 > [!WARNING]
 > Use EdgeReveal only on domains you own or have explicit permission to test.
 
