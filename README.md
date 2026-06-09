@@ -21,7 +21,7 @@ Developed by [JOJIN JOHN](https://www.linkedin.com/in/jojin-john/).
 - Fetches current Cloudflare ranges with built-in fallback ranges.
 - Scans subdomains concurrently with configurable threads.
 - Supports one or more custom wordlists.
-- Includes a bundled default wordlist: `dom.txt`.
+- Includes a bundled default wordlist: `subdomains.txt`.
 - Exports reports as normal text, JSON, YAML, or CSV.
 - Supports quiet, verbose, timeout, DNS resolver, and rate-limit controls.
 - Saves partial results if interrupted.
@@ -97,7 +97,7 @@ Windows users can replace `python3` with `python`.
 | Option | Description |
 | --- | --- |
 | `<domain>` | Target domain, such as `example.com`. |
-| `-w, --wordlist FILE` | Wordlist file. Can be used multiple times. Defaults to bundled `dom.txt`. |
+| `-w, --wordlist FILE` | Wordlist file. Can be used multiple times. Defaults to bundled `subdomains.txt`. |
 | `-t, --threads N` | Number of concurrent scan threads. Default: `10`. |
 | `-o, --output FILE` | Save the report to a file. |
 | `-f, --format FORMAT` | Output format: `normal`, `json`, `yaml`, or `csv`. Default: `normal`. |
@@ -126,7 +126,7 @@ python3 EdgeReveal.py example.com -t 50
 Use a custom wordlist:
 
 ```bash
-python3 EdgeReveal.py example.com -w subdomains.txt
+python3 EdgeReveal.py example.com -w my-subdomains.txt
 ```
 
 Use multiple wordlists:
@@ -197,7 +197,7 @@ python3 EdgeReveal.py example.com -w subs.txt -t 30 --dns 8.8.8.8 --timeout 3 -o
 
 ## Wordlists
 
-The default scan uses `dom.txt` from this repository. You can add comments to wordlists with `#`; blank lines and comment lines are ignored.
+The default scan uses `subdomains.txt` from this repository. You can add comments to wordlists with `#`; blank lines and comment lines are ignored.
 
 Example:
 

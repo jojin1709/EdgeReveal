@@ -35,7 +35,7 @@ from tqdm import tqdm
 
 init(autoreset=True)
 
-# Resolve the directory where this script lives so dom.txt can be found
+# Resolve the directory where this script lives so the bundled wordlist can be found.
 SCRIPT_DIR = Path(__file__).parent.resolve()
 
 
@@ -371,8 +371,8 @@ class EdgeReveal:
         rate_limit: float = 0.0,
     ):
         self.domain = domain.lower().strip()
-        # Default to bundled dom.txt if no wordlist provided
-        self.wordlists = wordlists if wordlists else [str(SCRIPT_DIR / "dom.txt")]
+        # Default to bundled subdomains.txt if no wordlist is provided.
+        self.wordlists = wordlists if wordlists else [str(SCRIPT_DIR / "subdomains.txt")]
         self.threads = max(1, threads)
         self.output = Path(output) if output else None
         self.output_format = output_format
@@ -661,7 +661,7 @@ Examples:
         dest="wordlists",
         default=[],
         metavar="FILE",
-        help="Wordlist file(s). Can be specified multiple times. Defaults to bundled dom.txt.",
+        help="Wordlist file(s). Can be specified multiple times. Defaults to bundled subdomains.txt.",
     )
 
     parser.add_argument(
