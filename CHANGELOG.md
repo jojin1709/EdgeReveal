@@ -3,7 +3,7 @@
 ## [1.1.0] - 2026-06-09
 
 ### Fixed
-- **Wordlist path bug** — default `dom.txt` now resolved relative to the script's own directory, not the current working directory. Running CloudRip from any directory no longer crashes with "Wordlist not found".
+- **Wordlist path bug** — default `dom.txt` now resolved relative to the script's own directory, not the current working directory. Running EdgeReveal from any directory no longer crashes with "Wordlist not found".
 - **YAML output corruption** — the custom YAML serialiser was incorrectly indenting nested list-of-dicts. Rewritten to produce valid, readable YAML for all report structures.
 - **`executor.shutdown` compatibility** — `cancel_futures=True` is only available on Python ≥ 3.9. Wrapped in a try/except so the tool works on 3.8 as well.
 - **DNS errors swallowed silently** — `_resolve_record` previously caught `Exception` and returned an empty list with no error message. Now returns `(ips, error_string)` so timeouts and "no nameservers" conditions are surfaced in the report and verbose output.

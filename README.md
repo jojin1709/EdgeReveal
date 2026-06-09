@@ -1,17 +1,12 @@
-# CloudRip
+# EdgeReveal
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-2.1.0-green.svg)](https://github.com/moscovium-mc/CloudRip/releases)
+![Version](https://img.shields.io/badge/version-1.1.0-green.svg)
 [![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey.svg)]()
 [![Tool Type](https://img.shields.io/badge/tool-recon-red.svg)]()
 [![Built for](https://img.shields.io/badge/built%20for-pentesting-red.svg)]()
 
-[![GitHub Stars](https://img.shields.io/github/stars/moscovium-mc/CloudRip?style=social)](https://github.com/moscovium-mc/CloudRip/stargazers)
-[![Forks](https://img.shields.io/github/forks/moscovium-mc/CloudRip?style=social)](https://github.com/moscovium-mc/CloudRip/network/members)
-[![Issues](https://img.shields.io/github/issues/moscovium-mc/CloudRip)](https://github.com/moscovium-mc/CloudRip/issues)
-
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/moscovium-mc/CloudRip/graphs/commit-activity)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 A tool that helps you find the real IP addresses hiding behind Cloudflare by checking subdomains. For penetration testing, security research, and learning how Cloudflare protection works.
@@ -59,8 +54,8 @@ A tool that helps you find the real IP addresses hiding behind Cloudflare by che
 
 Clone the repository:
 ```bash
-git clone https://github.com/moscovium-mc/CloudRip
-cd CloudRip
+git clone https://github.com/<your-username>/EdgeReveal.git
+cd EdgeReveal
 ```
 
 Create a virtual environment and install dependencies:
@@ -86,12 +81,12 @@ pip install -r requirements.txt
 
 Basic scan:
 ```bash
-python3 cloudrip.py example.com
+python3 EdgeReveal.py example.com
 ```
 
 With all the options:
 ```bash
-python3 cloudrip.py example.com -w wordlist1.txt -w wordlist2.txt -t 20 -o report.json -f json
+python3 EdgeReveal.py example.com -w wordlist1.txt -w wordlist2.txt -t 20 -o report.json -f json
 ```
 
 **Options:**
@@ -110,34 +105,34 @@ python3 cloudrip.py example.com -w wordlist1.txt -w wordlist2.txt -t 20 -o repor
 
 **Basic scan:**
 ```bash
-python3 cloudrip.py example.com
+python3 EdgeReveal.py example.com
 ```
 
 **Multiple wordlists with JSON output:**
 ```bash
-python3 cloudrip.py example.com -w subs1.txt -w subs2.txt -o report.json -f json
+python3 EdgeReveal.py example.com -w subs1.txt -w subs2.txt -o report.json -f json
 ```
 
 **Fast scan with 50 threads:**
 ```bash
-python3 cloudrip.py example.com -t 50 -o results.csv -f csv
+python3 EdgeReveal.py example.com -t 50 -o results.csv -f csv
 ```
 
 **Verbose mode (see all attempts):**
 ```bash
-python3 cloudrip.py example.com -v
+python3 EdgeReveal.py example.com -v
 ```
 
 **Quiet mode (only found IPs):**
 ```bash
-python3 cloudrip.py example.com -q -o found.txt
+python3 EdgeReveal.py example.com -q -o found.txt
 ```
 
 ## Output Formats
 
 ### Normal (default)
 ```
-CloudRip Scan Report
+EdgeReveal Scan Report
 ============================================================
 Target: example.com
 Date: 2025-11-28T12:00:00+00:00
@@ -217,7 +212,7 @@ If you find this project useful, consider supporting my work:
 
 ## Need to Avoid Rate Limits?
 
-CloudRip makes many DNS queries. Cloudflare will eventually block your IP.
+EdgeReveal makes many DNS queries. Cloudflare will eventually block your IP.
 
 **Solution:** Residential proxies rotate your IP address so you can scan without getting blocked.
 
@@ -230,23 +225,23 @@ CloudRip makes many DNS queries. Cloudflare will eventually block your IP.
 - Supports security testing workflows
 - Free 10,000 credits to start
 
-👉 **[Sign up for ScrapingAnt](https://scrapingant.com/?ref=m2izy2z)** use code **moscovium** for 5% off.
+[Sign up for ScrapingAnt](https://scrapingant.com/?ref=m2izy2z) and use code `moscovium` for 5% off.
 
-*Note: Run CloudRip through a system-wide proxy or use ScrapingAnt's API. Direct SOCKS proxy support coming when ScrapingAnt adds it.*
+*Note: Run EdgeReveal through a system-wide proxy or use ScrapingAnt's API. Direct SOCKS proxy support coming when ScrapingAnt adds it.*
 
 ## Legal Notice
 
 > [!WARNING]
 > **FOR AUTHORIZED SECURITY TESTING ONLY**
 
-**Only use CloudRip on systems you have explicit permission to test.** This tool is designed for ethical security research, authorized penetration testing, and educational purposes only.
+**Only use EdgeReveal on systems you have explicit permission to test.** This tool is designed for ethical security research, authorized penetration testing, and educational purposes only.
 
 **Unauthorized reconnaissance or scanning of systems is illegal** and may violate various laws including:
 - Computer Fraud and Abuse Act (CFAA) in the United States
 - Computer Misuse Act in the United Kingdom
 - Similar legislation in other jurisdictions
 
-**You are solely responsible for how you use this tool.** The author assumes NO LIABILITY for any misuse, damage, or illegal activity conducted with CloudRip.
+**You are solely responsible for how you use this tool.** The author assumes NO LIABILITY for any misuse, damage, or illegal activity conducted with EdgeReveal.
 
 **Ethical Use Required:**
 - Obtain written authorization before testing
@@ -262,6 +257,6 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 <div align="center">
 
-**[Star this repo](https://github.com/moscovium-mc/CloudRip)** if you find it useful
+**Star this repo** if you find it useful
 
 </div>

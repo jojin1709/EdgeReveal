@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CloudRip - Cloudflare Bypasser
+EdgeReveal - Cloudflare Origin Revealer
 Find real IP addresses behind Cloudflare protection by scanning subdomains.
 """
 
@@ -227,7 +227,7 @@ class ReportWriter:
 
     @staticmethod
     def _write_normal(report: ScanReport, output: TextIO, only_found: bool = False) -> None:
-        output.write("CloudRip Scan Report\n")
+        output.write("EdgeReveal Scan Report\n")
         output.write("=" * 60 + "\n")
         output.write(f"Target: {report.target_domain}\n")
         output.write(f"Date: {report.scan_date}\n")
@@ -353,7 +353,7 @@ class ReportWriter:
             ])
 
 
-class CloudRip:
+class EdgeReveal:
     """Main scanner class."""
 
     def __init__(
@@ -403,11 +403,10 @@ class CloudRip:
     def display_banner(self) -> None:
         if self.quiet:
             return
-        figlet_text = pyfiglet.Figlet(font="slant").renderText("CloudRip")
+        figlet_text = pyfiglet.Figlet(font="slant").renderText("EdgeReveal")
         tqdm.write(f"{Colors.BLUE}{figlet_text}{Colors.RESET}")
-        tqdm.write(f"{Colors.RED}CloudFlare Bypasser - Find Real IP Addresses Behind Cloudflare{Colors.RESET}")
-        tqdm.write(f'{Colors.YELLOW}"Ripping through the clouds to expose the truth"{Colors.RESET}')
-        tqdm.write(f"{Colors.WHITE}GitHub: {Colors.BLUE}https://github.com/moscovium-mc/CloudRip{Colors.RESET}\n")
+        tqdm.write(f"{Colors.RED}Cloudflare Origin Revealer - Find Real IP Addresses Behind Cloudflare{Colors.RESET}")
+        tqdm.write(f'{Colors.YELLOW}"Revealing what sits behind the edge"{Colors.RESET}\n')
 
     def load_wordlists(self) -> list:
         subdomains = set()
@@ -641,15 +640,15 @@ class CloudRip:
 
 def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="CloudRip - Cloudflare Bypasser",
+        description="EdgeReveal - Cloudflare Origin Revealer",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python3 cloudrip.py example.com
-  python3 cloudrip.py example.com -w subs.txt -t 20 -o report.json -f json
-  python3 cloudrip.py example.com -w list1.txt -w list2.txt -v
-  python3 cloudrip.py example.com -q -o found.csv -f csv --only-found
-  python3 cloudrip.py example.com --dns 8.8.8.8 --dns 1.1.1.1 --timeout 3
+  python3 EdgeReveal.py example.com
+  python3 EdgeReveal.py example.com -w subs.txt -t 20 -o report.json -f json
+  python3 EdgeReveal.py example.com -w list1.txt -w list2.txt -v
+  python3 EdgeReveal.py example.com -q -o found.csv -f csv --only-found
+  python3 EdgeReveal.py example.com --dns 8.8.8.8 --dns 1.1.1.1 --timeout 3
         """,
     )
 
@@ -732,7 +731,7 @@ Examples:
     parser.add_argument(
         "--version",
         action="version",
-        version=f"CloudRip {__version__}",
+        version=f"EdgeReveal {__version__}",
     )
 
     return parser.parse_args()
@@ -741,7 +740,7 @@ Examples:
 def main():
     args = parse_arguments()
 
-    scanner = CloudRip(
+    scanner = EdgeReveal(
         domain=args.domain,
         wordlists=args.wordlists,
         threads=args.threads,
