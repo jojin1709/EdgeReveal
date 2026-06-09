@@ -1,262 +1,299 @@
 # EdgeReveal
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 ![Version](https://img.shields.io/badge/version-1.1.0-green.svg)
-[![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey.svg)]()
-[![Tool Type](https://img.shields.io/badge/tool-recon-red.svg)]()
-[![Built for](https://img.shields.io/badge/built%20for-pentesting-red.svg)]()
+![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey.svg)
+![Tool Type](https://img.shields.io/badge/tool-recon-red.svg)
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+EdgeReveal is a Python reconnaissance tool for authorized security testing. It checks a target domain and its subdomains, resolves IPv4 and IPv6 records, filters known Cloudflare IP ranges, and reports hosts that may expose non-Cloudflare origin IPs.
 
-A tool that helps you find the real IP addresses hiding behind Cloudflare by checking subdomains. For penetration testing, security research, and learning how Cloudflare protection works.
+> [!WARNING]
+> Use EdgeReveal only on domains you own or have explicit permission to test.
 
-## Table of Contents
+## Features
 
-- [What it does](#what-it-does)
-- [Installation](#installation)
-- [How to use it](#how-to-use-it)
-- [Examples](#examples)
-- [Output Formats](#output-formats)
-- [Version History](#version-history)
-- [Contributors](#contributors)
-- [Contributing](#contributing)
-- [Support](#support)
-- [Need to avoid Rate Limits?](#need-to-avoid-rate-limits)
-- [Legal Notice](#legal-notice)
-- [License](#license)
+- Resolves both `A` and `AAAA` DNS records.
+- Detects multiple IPs per hostname.
+- Filters Cloudflare IPv4 and IPv6 ranges.
+- Fetches current Cloudflare ranges with built-in fallback ranges.
+- Scans subdomains concurrently with configurable threads.
+- Supports one or more custom wordlists.
+- Includes a bundled default wordlist: `dom.txt`.
+- Exports reports as normal text, JSON, YAML, or CSV.
+- Supports quiet, verbose, timeout, DNS resolver, and rate-limit controls.
+- Saves partial results if interrupted.
 
-## What it does
+## Requirements
 
-- **IPv4 & IPv6 support** - Resolves both A and AAAA records
-- **Multiple IPs detection** - Finds ALL IPs behind a domain, not just the first one
-- **Progress bar** - Real-time progress with live stats (found/cloudflare count)
-- **Dynamic Cloudflare IP detection** - Fetches latest IP ranges from Cloudflare's API (with fallback)
-- **Fast subdomain scanning** - Uses multiple threads to speed things up
-- **Multiple wordlists** - Combine several wordlists in a single scan
-- **Wordlist comments** - Use `#` to add comments in your wordlists
-- **Multiple output formats** - Export to JSON, YAML, CSV, or plain text
-- **Verbose & quiet modes** - Control output verbosity
-- **Filters out Cloudflare IPs** - Only shows you the real server addresses
-- **Bring your own wordlist** - Or use the built-in one (dom.txt)
-- **Save your findings** - Export results to a file for later
-- **Rate limiting** - Won't spam the target and get you blocked
-- **Solid default wordlist** - Organized and comprehensive for better results
+- Python 3.8 or newer
+- `pip`
 
 ## Installation
 
-### Requirements
-
-- Python 3.8 or higher
-- pip (Python package manager)
-
-### Setup
-
 Clone the repository:
+
 ```bash
-git clone https://github.com/<your-username>/EdgeReveal.git
+git clone https://github.com/jojin1709/EdgeReveal.git
 cd EdgeReveal
 ```
 
-Create a virtual environment and install dependencies:
+Create a virtual environment and install dependencies.
 
-**Linux/macOS:**
+Linux/macOS:
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**Windows:**
+Windows PowerShell:
+
 ```powershell
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-> [!TIP]
-> Always use a virtual environment to avoid dependency conflicts with other Python projects.
+## Quick Start
 
-## How to use it
+Linux/macOS:
 
-Basic scan:
 ```bash
 python3 EdgeReveal.py example.com
 ```
 
-With all the options:
-```bash
-python3 EdgeReveal.py example.com -w wordlist1.txt -w wordlist2.txt -t 20 -o report.json -f json
+Windows:
+
+```powershell
+python EdgeReveal.py example.com
 ```
 
-**Options:**
+Show help:
+
+```bash
+python3 EdgeReveal.py --help
+```
+
+Show version:
+
+```bash
+python3 EdgeReveal.py --version
+```
+
+## Usage
+
+```bash
+python3 EdgeReveal.py <domain> [options]
+```
+
+Windows users can replace `python3` with `python`.
+
+## Options
 
 | Option | Description |
-|--------|-------------|
-| `<domain>` | The site you're testing (like example.com) |
-| `-w, --wordlist` | Wordlist file(s). Can be specified multiple times (default: dom.txt) |
-| `-t, --threads` | How many threads to run (default: 10) |
-| `-o, --output` | Save results to a file |
-| `-f, --format` | Output format: `normal`, `json`, `yaml`, `csv` (default: normal) |
-| `-v, --verbose` | Show all results including "not found" entries |
-| `-q, --quiet` | Minimal output - only show found IPs |
+| --- | --- |
+| `<domain>` | Target domain, such as `example.com`. |
+| `-w, --wordlist FILE` | Wordlist file. Can be used multiple times. Defaults to bundled `dom.txt`. |
+| `-t, --threads N` | Number of concurrent scan threads. Default: `10`. |
+| `-o, --output FILE` | Save the report to a file. |
+| `-f, --format FORMAT` | Output format: `normal`, `json`, `yaml`, or `csv`. Default: `normal`. |
+| `-v, --verbose` | Show NXDOMAIN, Cloudflare-only, and error entries. |
+| `-q, --quiet` | Hide banner and progress bar. Prints only found results. |
+| `--only-found` | When saving a report, include only non-Cloudflare results. |
+| `--dns IP` | Custom DNS resolver. Can be used multiple times. |
+| `--timeout SECS` | DNS timeout per query in seconds. Default: `5.0`. |
+| `--rate-limit SECS` | Sleep between DNS queries per thread. Default: `0`. |
+| `--version` | Print the current version and exit. |
 
 ## Examples
 
-**Basic scan:**
+Basic scan:
+
 ```bash
 python3 EdgeReveal.py example.com
 ```
 
-**Multiple wordlists with JSON output:**
+Scan with the bundled wordlist and 50 threads:
+
 ```bash
-python3 EdgeReveal.py example.com -w subs1.txt -w subs2.txt -o report.json -f json
+python3 EdgeReveal.py example.com -t 50
 ```
 
-**Fast scan with 50 threads:**
+Use a custom wordlist:
+
 ```bash
-python3 EdgeReveal.py example.com -t 50 -o results.csv -f csv
+python3 EdgeReveal.py example.com -w subdomains.txt
 ```
 
-**Verbose mode (see all attempts):**
+Use multiple wordlists:
+
+```bash
+python3 EdgeReveal.py example.com -w common.txt -w extra.txt
+```
+
+Save a normal text report:
+
+```bash
+python3 EdgeReveal.py example.com -o report.txt
+```
+
+Save JSON output:
+
+```bash
+python3 EdgeReveal.py example.com -o report.json -f json
+```
+
+Save YAML output:
+
+```bash
+python3 EdgeReveal.py example.com -o report.yaml -f yaml
+```
+
+Save CSV output:
+
+```bash
+python3 EdgeReveal.py example.com -o report.csv -f csv
+```
+
+Save only non-Cloudflare findings:
+
+```bash
+python3 EdgeReveal.py example.com -q -o found.csv -f csv --only-found
+```
+
+Show verbose scan details:
+
 ```bash
 python3 EdgeReveal.py example.com -v
 ```
 
-**Quiet mode (only found IPs):**
+Use custom DNS resolvers:
+
 ```bash
-python3 EdgeReveal.py example.com -q -o found.txt
+python3 EdgeReveal.py example.com --dns 8.8.8.8 --dns 1.1.1.1
+```
+
+Use a shorter DNS timeout:
+
+```bash
+python3 EdgeReveal.py example.com --timeout 3
+```
+
+Slow down per-thread DNS queries:
+
+```bash
+python3 EdgeReveal.py example.com --rate-limit 0.1
+```
+
+Combine common options:
+
+```bash
+python3 EdgeReveal.py example.com -w subs.txt -t 30 --dns 8.8.8.8 --timeout 3 -o report.json -f json
+```
+
+## Wordlists
+
+The default scan uses `dom.txt` from this repository. You can add comments to wordlists with `#`; blank lines and comment lines are ignored.
+
+Example:
+
+```text
+www
+mail
+admin
+# staging hosts
+dev
+staging
 ```
 
 ## Output Formats
 
-### Normal (default)
-```
+Normal text output:
+
+```text
 EdgeReveal Scan Report
 ============================================================
 Target: example.com
-Date: 2025-11-28T12:00:00+00:00
+Date: 2026-06-09T12:00:00+00:00
 Total checked: 150
 
-[FOUND] Non-Cloudflare IPs (3):
+[FOUND] Non-Cloudflare IPs (2):
   mail.example.com
-    v4:[192.168.1.1, 192.168.1.2, 192.168.1.3]
-  ftp.example.com
-    v4:[10.0.0.1] | v6:[2001:db8::1]
+    v4:[192.0.2.10]
 
 [CLOUDFLARE] Behind Cloudflare (5):
   www.example.com
-    v4:[104.16.1.1 [CF], 172.67.1.1 [CF]] | v6:[2606:4700::1 [CF]]
+    v4:[104.16.1.1 [CF]] | v6:[2606:4700::1 [CF]]
 ```
 
-### JSON
+JSON output:
+
 ```json
 {
   "target_domain": "example.com",
-  "scan_date": "2025-11-28T12:00:00+00:00",
+  "scan_date": "2026-06-09T12:00:00+00:00",
   "total_checked": 150,
   "summary": {
-    "found": 3,
+    "found": 2,
     "cloudflare": 5,
-    "not_found": 142,
+    "not_found": 143,
     "errors": 0
   },
-  "results": { ... }
+  "results": {}
 }
 ```
 
-### CSV
+CSV output:
+
 ```csv
 domain,ipv4,ipv4_cloudflare,ipv6,ipv6_cloudflare,status,error
-mail.example.com,192.168.1.1;192.168.1.2;192.168.1.3,,,,found,
-www.example.com,104.16.1.1;172.67.1.1,104.16.1.1;172.67.1.1,2606:4700::1,2606:4700::1,cloudflare,
+mail.example.com,192.0.2.10,,,,found,
+www.example.com,104.16.1.1,104.16.1.1,2606:4700::1,2606:4700::1,cloudflare,
+```
+
+## Troubleshooting
+
+If dependencies are missing, reinstall them:
+
+```bash
+pip install -r requirements.txt
+```
+
+If scans are slow or unreliable, try a public resolver and a shorter timeout:
+
+```bash
+python3 EdgeReveal.py example.com --dns 8.8.8.8 --timeout 3
+```
+
+If the target or resolver rate-limits DNS queries, lower the thread count or add a delay:
+
+```bash
+python3 EdgeReveal.py example.com -t 5 --rate-limit 0.2
 ```
 
 ## Version History
 
-See [CHANGELOG.md](CHANGELOG.md) for full version history.
-
-## Contributors
-
-Huge thanks to [@Dxsk](https://github.com/Dxsk) for the contributions to v2.1.0
+See [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 ## Contributing
 
-Got ideas for improvements? Found a bug? If it's better wordlists, new features, or bug fixes - all contributions help.
+Pull requests are welcome. Keep changes focused, readable, and tested before opening a PR.
 
-**How to contribute:**
+Basic contribution flow:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a pull request
-
-**Guidelines:**
-- Follow Python best practices and PEP 8
-- Add type hints to new code
-- Update documentation as needed
-- Test your changes thoroughly
-
-## Support
-
-If you find this project useful, consider supporting my work:
-
-<a href="https://buymeacoffee.com/webmoney" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="40"></a>
-
-**Crypto donations:**
-- <a href="bitcoin:bc1quavqz6cxqzfy4qtvq4zxc4fjgap3s7cmxja0k4"><img src="https://img.shields.io/badge/Bitcoin-000000?style=plastic&logo=bitcoin&logoColor=white" alt="Bitcoin"></a> `bc1quavqz6cxqzfy4qtvq4zxc4fjgap3s7cmxja0k4`
-- <a href="ethereum:0x5287af72afbc152b09b3bf20af3693157db9e425"><img src="https://img.shields.io/badge/Ethereum-627EEA?style=plastic&logo=ethereum&logoColor=white" alt="Ethereum"></a> `0x5287af72afbc152b09b3bf20af3693157db9e425`
-- <a href="solana:HYZjfEx8NbEMJX1vL1GmGj39zA6TgMsHm5KCHWSZxF4j"><img src="https://img.shields.io/badge/Solana-9945FF?style=plastic&logo=solana&logoColor=white" alt="Solana"></a> `HYZjfEx8NbEMJX1vL1GmGj39zA6TgMsHm5KCHWSZxF4j`
-- <a href="monero:86zv6vTDuG35sdBzBpwVAsD71hbt2gjH14qiesyrSsMkUAWHQkPZyY9TreeQ5dXRuP57yitP4Yn13SQEcMK4MhtwFzPoRR1"><img src="https://img.shields.io/badge/Monero-FF6600?style=plastic&logo=monero&logoColor=white" alt="Monero"></a> `86zv6vTDuG35sdBzBpwVAsD71hbt2gjH14qiesyrSsMkUAWHQkPZyY9TreeQ5dXRuP57yitP4Yn13SQEcMK4MhtwFzPoRR1`
-
-## Need to Avoid Rate Limits?
-
-EdgeReveal makes many DNS queries. Cloudflare will eventually block your IP.
-
-**Solution:** Residential proxies rotate your IP address so you can scan without getting blocked.
-
-### Recommended Proxy Service
-
-[![ScrapingAnt](https://img.shields.io/badge/Proxies-ScrapingAnt-0055FF?style=for-the-badge&logo=cloudflare&logoColor=white)](https://scrapingant.com/?ref=m2izy2z)
-
-**Why ScrapingAnt?**
-- 3M+ residential IPs across 100+ countries
-- Supports security testing workflows
-- Free 10,000 credits to start
-
-[Sign up for ScrapingAnt](https://scrapingant.com/?ref=m2izy2z) and use code `moscovium` for 5% off.
-
-*Note: Run EdgeReveal through a system-wide proxy or use ScrapingAnt's API. Direct SOCKS proxy support coming when ScrapingAnt adds it.*
+```bash
+git checkout -b feature/your-feature
+git add .
+git commit -m "Describe your change"
+git push origin feature/your-feature
+```
 
 ## Legal Notice
 
-> [!WARNING]
-> **FOR AUTHORIZED SECURITY TESTING ONLY**
-
-**Only use EdgeReveal on systems you have explicit permission to test.** This tool is designed for ethical security research, authorized penetration testing, and educational purposes only.
-
-**Unauthorized reconnaissance or scanning of systems is illegal** and may violate various laws including:
-- Computer Fraud and Abuse Act (CFAA) in the United States
-- Computer Misuse Act in the United Kingdom
-- Similar legislation in other jurisdictions
-
-**You are solely responsible for how you use this tool.** The author assumes NO LIABILITY for any misuse, damage, or illegal activity conducted with EdgeReveal.
-
-**Ethical Use Required:**
-- Obtain written authorization before testing
-- Respect rate limits and system resources
-- Follow responsible disclosure practices
-- Comply with all applicable laws and regulations
+EdgeReveal is intended for ethical security research, authorized penetration testing, and defensive assessment. Unauthorized scanning may be illegal. You are responsible for following applicable laws, program rules, and scope limits.
 
 ## License
 
-MIT License - See [LICENSE](LICENSE) for details.
-
----
-
-<div align="center">
-
-**Star this repo** if you find it useful
-
-</div>
+MIT License. See [LICENSE](LICENSE) for details.
